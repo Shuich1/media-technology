@@ -83,7 +83,11 @@ class MainWindow(QMainWindow):
         self.laplacian_pyramid_images = []
 
         if self.image_path:
-            image = cv2.imread(self.image_path)
+            try:
+                image = cv2.imread(self.image_path)
+            except Exception as e:
+                QMessageBox.critical(self, "Error", "Can`t process this image, maybe it`s too big or have incorrect file extension")
+                return
 
             self.gaussian_pyramid_images = self.gaussian_pyramid(image)
             for idx, img in enumerate(self.gaussian_pyramid_images):
@@ -166,6 +170,7 @@ class MainWindow(QMainWindow):
         
         for i in reversed(range(self.right_layout.count())): 
             self.right_layout.itemAt(i).widget().setParent(None)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
