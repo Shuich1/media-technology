@@ -128,7 +128,7 @@ class MainWindow(QMainWindow):
 
     def upload_file(self):
         self.image_path, _ = QFileDialog.getOpenFileName(
-            self, "Open Image", "", "Image Files (*.png *.jpg *.jpeg)")
+            self, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.tif *.jpeg *.hdr)")
         if self.image_path:
             QMessageBox.warning(
                 self,
@@ -137,6 +137,8 @@ class MainWindow(QMainWindow):
             )
             self.update_image()
             self.save_button.setEnabled(True)
+        else:
+            self.save_button.setEnabled(False)
 
     def update_camera(self):
         try:

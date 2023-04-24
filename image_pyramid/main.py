@@ -64,7 +64,7 @@ class MainWindow(QMainWindow):
 
     def upload_image(self):
         self.image_path, _ = QFileDialog.getOpenFileName(
-            self, "Open Image", "", "Image Files (*.png *.jpg)")
+            self, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.tif *.jpeg *.hdr)")
         if self.image_path:
             QMessageBox.warning(
                 self,
@@ -83,7 +83,11 @@ class MainWindow(QMainWindow):
         self.laplacian_pyramid_images = []
 
         if self.image_path:
-            image = cv2.imread(self.image_path)
+            try:
+                image = cv2.imread(self.image_path)
+            except Exception as e:
+                QMessageBox.critical(self, "Error", "Can`t process this image, maybe it`s too big or have incorrect file extension")
+                return
 
             self.gaussian_pyramid_images = self.gaussian_pyramid(image)
             for idx, img in enumerate(self.gaussian_pyramid_images):
@@ -122,10 +126,11 @@ class MainWindow(QMainWindow):
     def save_images(self):
         image_name = self.image_path.split('/')[-1].split(".")[0]
         
-        directory_path = f'{os.path.dirname(os.path.realpath(__file__))}\images\{image_name}'
+        directory_path = f'{os.path.dirname(os.path.realpath(__file__))}\images'
 
         if not os.path.exists(directory_path):
             os.mkdir(directory_path)
+            os.mkdir(f'{directory_path}\{image_name}')
 
         for idx, img in enumerate(self.gaussian_pyramid_images):
             save_path = os.path.join(
@@ -166,6 +171,7 @@ class MainWindow(QMainWindow):
         
         for i in reversed(range(self.right_layout.count())): 
             self.right_layout.itemAt(i).widget().setParent(None)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
