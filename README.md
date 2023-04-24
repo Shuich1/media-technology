@@ -1,6 +1,6 @@
-# Media Technology Homework
+# Multimedia Technology Homework
 
-This repository contains the code for two assignments in media technology course. The assignments are as follows:
+This repository contains the code for two assignments in multimedia technology course. The assignments are as follows:
 
 1. Hough's method of finding straight lines
 2. Gauss and Laplace image pyramids
